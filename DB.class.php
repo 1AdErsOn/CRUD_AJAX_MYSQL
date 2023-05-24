@@ -54,7 +54,8 @@ class dataBase{
     }
     public function getUser($id){
         $statement = $this->conexion->prepare("SELECT * FROM {$this->table} WHERE id = :id LIMIT 1");
-        $resp = $statement->execute([':id' => $id]);
+        $statement->execute([':id' => $id]);
+        $resp = $statement->fetch(PDO::FETCH_ASSOC);
         return $resp;
     }
     public function insert($name, $email, $phone)
@@ -63,7 +64,7 @@ class dataBase{
         $resp = $statement->execute([
             ':name' => $name,
             ':email' => $email,
-            ':phone' => $$phone
+            ':phone' => $phone
         ]);
         return $resp;
     }

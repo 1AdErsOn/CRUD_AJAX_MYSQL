@@ -118,6 +118,7 @@ if(!empty($_POST['action_type'])){
                     'phone' => $phone
                 );
                 $condition = array('id' => $_POST['id']);*/
+                $id = $_POST["id"];
                 $update = $db->update($name, $email, $phone, $id);
                 
                 if($update){
