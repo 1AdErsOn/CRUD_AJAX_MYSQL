@@ -1,95 +1,81 @@
-<?php
-// Include and initialize DB class
-require_once 'DB.class.php';
-$db = new dataBase("users");
+<?php include("./include/header.php"); ?>
 
-// Fetch the users data
-$users = $db->getData();
-//header
-include("./include/header.php");
-?>
- <div class="container">
-    <div class="row">
-        <div class="col-md-12 head">
-            <h5>Users</h5>
-            <!-- Add link -->
-            <div class="float-right">
-                <a href="javascript:void(0);" class="btn btn-success" data-type="add" data-toggle="modal" data-target="#modalUserAddEdit"><i class="plus"></i> New User</a>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+          <?php if ($error): ?>
+            <p class="text-danger">
+              <?= $error ?>
+            </p>
+          <?php endif ?>
+          <form method="POST" action="./login.php">
+
+            <div class="mb-3 row">
+              <label for="email" class="col-md-4 col-form-label text-md-end">Email</label>
+              <div class="col-md-6">
+                <input id="email" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+              </div>
             </div>
+
+            <div class="mb-3 row">
+              <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
+              <div class="col-md-6">
+                <input id="password" type="password" class="form-control" name="password" autocomplete="password" autofocus>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="statusMsg"></div>
-        <!-- List the users -->
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="userData">
-                <?php if(!empty($users)): foreach($users as $row): ?>
-                <tr>
-                    <td><?= '#'.$row['id'] ?></td>
-                    <td><?= $row['name'] ?></td>
-                    <td><?= $row['email'] ?></td>
-                    <td><?= $row['phone'] ?></td>
-                    <td>
-                        <a href="javascript:void(0);" class="btn btn-warning" rowID="<?= $row['id'] ?>" data-type="edit" data-toggle="modal" data-target="#modalUserAddEdit">edit</a>
-                        <a href="javascript:void(0);" class="btn btn-danger" onclick="return confirm('Are you sure to delete data?')?userAction('delete', '<?= $row['id'] ?>'):false;">delete</a>
-                    </td>
-                </tr>
-                <?php endforeach; else: ?>
-                <tr><td colspan="5">No user(s) found...</td></tr>
-                <?php endif ?>
-            </tbody>
-        </table>
+      </div>
+      <div class="card">
+        <div class="card-header">Register</div>
+        <div class="card-body">
+          <?php if ($error): ?>
+            <p class="text-danger">
+              <?= $error ?>
+            </p>
+          <?php endif ?>
+          <form method="POST" action="./register.php">
+
+            <div class="mb-3 row">
+              <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
+              <div class="col-md-6">
+                <input id="name" type="text" class="form-control" name="name" autocomplete="name" autofocus>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="email" class="col-md-4 col-form-label text-md-end">Email</label>
+              <div class="col-md-6">
+                <input id="email" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
+              <div class="col-md-6">
+                <input id="password" type="password" class="form-control" name="password" autocomplete="password" autofocus>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
-
-<!-- Modal Add and Edit Form -->
-<div class="modal fade" id="modalUserAddEdit" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Add New User</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <div class="statusMsg"></div>
-                <form role="form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone no">
-                    </div>
-                    <input type="hidden" class="form-control" name="id" id="id"/>
-                </form>
-            </div>
-            
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="userSubmit">SUBMIT</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php
-//footer
-include("./include/footer.php");
+<?php include("./include/footer.php"); ?>

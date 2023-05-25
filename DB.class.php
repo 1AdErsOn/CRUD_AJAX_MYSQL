@@ -58,6 +58,18 @@ class dataBase{
         $resp = $statement->fetch(PDO::FETCH_ASSOC);
         return $resp;
     }
+    public function getAdmin($email){
+        $statement = $this->conexion->prepare("SELECT * FROM {$this->table} WHERE email = :email");
+        $statement->execute([':email' => $email]);
+        $resp = $statement->fetch(PDO::FETCH_ASSOC);
+        return $resp;
+    }
+    public function verify($email){
+        $statement = $this->conexion->prepare("SELECT * FROM {$this->table} WHERE email = :email");
+        $statement->execute([':email' => $email]);
+        $resp = $statement->rowCount();
+        return $resp;
+    }
     public function insert($name, $email, $phone)
     {
         $statement = $this->conexion->prepare("INSERT INTO {$this->table} (name, email, phone) VALUES (:name, :email, :phone)");
@@ -65,6 +77,16 @@ class dataBase{
             ':name' => $name,
             ':email' => $email,
             ':phone' => $phone
+        ]);
+        return $resp;
+    }
+    public function insertAdmin($name, $email, $pass)
+    {
+        $statement = $this->conexion->prepare("INSERT INTO {$this->table} (name, email, password) VALUES (:name, :email, :pass)");
+        $resp = $statement->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':pass' => $pass
         ]);
         return $resp;
     }
