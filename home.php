@@ -13,13 +13,13 @@ include("./include/header.php");
         <div class="col-md-12 head">
             <h1>Users</h1>
             <!-- Add link -->
-            <div class="float-right">
-                <a href="javascript:void(0);" class="btn btn-success" data-type="add" data-toggle="modal" data-target="#modalUserAddEdit"><i class="plus"></i> New User</a>
+            <div class="mb-1 d-flex justify-content-end">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@new_user">New User</button>
             </div>
         </div>
         <div class="statusMsg"></div>
         <!-- List the users -->
-        <table class="table table-striped table-bordered">
+        <table class="table table-success table-striped-columns">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -49,45 +49,58 @@ include("./include/header.php");
     </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="statusMsg"></div>
+        <!--<form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>-->
+        <form class="mt-3" method="POST" action="./register.php">
 
+            <div class="mb-3 row">
+              <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
+              <div class="col-md-6">
+                <input id="name" type="text" class="form-control" name="name" autocomplete="name" autofocus>
+              </div>
+            </div>
 
-<!-- Modal Add and Edit Form -->
-<div class="modal fade" id="modalUserAddEdit" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Add New User</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="mb-3 row">
+              <label for="email" class="col-md-4 col-form-label text-md-end">Email</label>
+              <div class="col-md-6">
+                <input id="email" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+              </div>
             </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <div class="statusMsg"></div>
-                <form role="form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone no">
-                    </div>
-                    <input type="hidden" class="form-control" name="id" id="id"/>
-                </form>
+
+            <div class="mb-3 row">
+              <label for="number" class="col-md-4 col-form-label text-md-end">Phone</label>
+              <div class="col-md-6">
+                <input id="number" type="number" class="form-control" name="phone" autocomplete="phone" autofocus>
+              </div>
             </div>
-            
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="userSubmit">SUBMIT</button>
-            </div>
-        </div>
+
+            <input type="hidden" class="form-control" name="id" id="id"/>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-success" id="userSubmit">SUBMIT</button>-->
+        <a href="javascript:void(0);" class="btn btn-success" onclick="userAction('add');">SUBMIT</a>
+      </div>
     </div>
+  </div>
 </div>
 
 <?php

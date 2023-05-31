@@ -1,9 +1,7 @@
 <?php
 
-session_start();
 require "./DB.class.php";
 $message = null;
-$status = "danger";
 if (isset($_POST["login"])){
     //validate
     if (empty($_POST["email"]) || empty($_POST["password"])){
@@ -20,39 +18,40 @@ if (isset($_POST["login"])){
         $DB = new dataBase("admins");
         $exits = $DB->verify($email);
         if ($exits == 0){
-            $message = "Invalid Credentials.";
+            $message = "Invalid Credentials E.";
         } else {
             $user = $DB->getAdmin($email);
             if (!password_verify($password, $user["password"])){
-                $message = "Invalid Credentials.";
+                $message = "Invalid Credentials. P";
             } else {
                 unset($user["password"]);
                 $_SESSION["user"] = $user;
-                $status = "success";
+                $message = 'Welcome '.$user['name'].'!';
                 // Return response as JSON format
                 $response = array(
-                    'status' => $status,
+                    'status' => true,
                     'msg' => $message
                 );
                 echo json_encode($response);
                 return;
             }
         }
+        // Return response as JSON format
     }
     // Return response as JSON format
     $response = array(
-        'status' => $status,
+        'status' => false,
         'msg' => $message
     );
     echo json_encode($response);
     return;
 } else if (isset($_POST["register"])) {
     if (empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"])){
-        $error = "Please fill all the fields.";
+        $message = "Please fill all the fields.";
     } else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-        $error = "Please enter a valid email.";
+        $message = "Please enter a valid email.";
     } else if (strlen($_POST["password"]) < 8) {
-        $error = "Password can not be less to 8 characters.";
+        $message = "Password can not be less to 8 characters.";
     } else {
         //get values
         $name = $_POST["name"];
@@ -65,24 +64,25 @@ if (isset($_POST["login"])){
         $exits = $DB->verify($email);
         if ($exits == 0) {
             $DB->insertAdmin($name, $email, $hasPassword);
-            $DB->getAdmin($email);
+            $user = $DB->getAdmin($email);
             session_start();
             unset($user["password"]);
             $_SESSION["user"] = $user;
             $status = "success";
+            $message = 'Your account has been registered successfully, Welcome '.$user['name'].'!';
             $response = array(
-                'status' => $status,
+                'status' => true,
                 'msg' => $message
             );
             echo json_encode($response);
             return;
         } else{
-          $error = "Email already registered, please use another email.";
+            $message = "Email already registered, please use another email.";
         }
     }
     // Return response as JSON format
     $response = array(
-        'status' => $status,
+        'status' => false,
         'msg' => $message
     );
     echo json_encode($response);
