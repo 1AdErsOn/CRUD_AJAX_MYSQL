@@ -77,7 +77,7 @@ if (isset($_POST["login"])){
             echo json_encode($response);
             return;
         } else{
-            $message = "Email already registered, please use another email.";
+            $message = "Email already registered, please use another email.".$name." ".$email." ".$password;
         }
     }
     // Return response as JSON format

@@ -33,10 +33,16 @@ class Model {
     setView(view){
         this.view = view;
     }
-    createAdmin(name, email, password) {
-        const adminData = 'register=&name='+name+'&email='+email+'&password='+password;
-        //const serve = null;
-        $.ajax({
+    createAdmin(camps) {
+        const data = {
+            name: camps.get('name'),
+            email: camps.get('email'),
+            password: camps.get('password'),
+            register:''
+        };
+        console.log(data);
+        //const adminData = 'register=&name='+name+'&email='+email+'&password='+password;
+        /* $.ajax({
             type: this.method,
             url: this.urlAdmin,
             dataType: 'JSON',
@@ -63,7 +69,32 @@ class Model {
                     } 
                 }, 3000);
             }
+        }); */
+        fetch(this.urlAdmin, {
+            method: this.method,
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(data => {
+            console.log(data);
+        })
+        //console.log(responce.json());
+        /* // Opciones por defecto estan marcadas con un *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
+        return response.json(); // parses JSON response into native JavaScript objects */
     }
     LoginAdmin (email, password) {
         const adminData = 'login=&email='+email+'&password='+password;
@@ -103,21 +134,18 @@ class Model {
 class Admin {
     constructor () {
         //login
-        this.loginBtn = document.getElementById('login');
-        this.lEmail = document.getElementById('lemail');
-        this.lPassword = document.getElementById('lpassword');
+        this.loginForm = document.getElementById('login');
         //register
-        this.registerBtn = document.getElementById('register');
-        this.rName = document.getElementById('rname');
-        this.rEmail = document.getElementById('remail');
-        this.rPassword = document.getElementById('rpassword');
+        this.registerForm = document.getElementById('register');
         //instance
         this.alert = new Alert('index');
     }
     adLogin (callback) {
-        this.loginBtn.onclick = () => {
-            const email = this.lEmail.value;
-            const password = this.lPassword.value;
+        this.loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const camps = new FormData(this.loginForm);
+            const email = camps.get('email');
+            const password = camps.get('password');
             if (!email || !password) {
                 const type = 'alert-warning';
                 const message = 'email and password required';
@@ -129,13 +157,15 @@ class Admin {
             } else {
                 callback(email, password);
             }
-        }
+        });
     }
     adRegister (callback) {
-        this.registerBtn.onclick = () => {
-            const name = this.rName.value;
-            const email = this.rEmail.value;
-            const password = this.rPassword.value;
+        this.registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const camps = new FormData(this.registerForm);
+            const name = camps.get('name');
+            const email = camps.get('email');
+            const password = camps.get('password');
             if (!name || !email || !password) {
                 const type = 'alert-warning';
                 const message = 'name, email and password required';
@@ -145,9 +175,9 @@ class Admin {
                     this.alert.hide(); 
                 }, 3000);
             } else {
-                callback(name, email, password);
+                callback(camps);
             }
-        }
+        });
     }
 }
 
@@ -160,7 +190,7 @@ class View{
         
         //callbacks
         this.admin.adLogin((email, password) => this.login(email, password));
-        this.admin.adRegister((name, email, password) => this.register(name, email, password));
+        this.admin.adRegister((camps) => this.register(camps));
     }
     //set model
     setModel(model){
@@ -181,9 +211,9 @@ class View{
         //console.log(email, password);
         this.model.LoginAdmin(email, password);
     }
-    register(name, email, password){
+    register(camps){
         //console.log(name, email, password);
-        this.model.createAdmin(name, email, password);
+        this.model.createAdmin(camps);
     }
 }
 

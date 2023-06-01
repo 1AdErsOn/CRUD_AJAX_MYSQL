@@ -16,53 +16,57 @@
           </nav>
           <div class="tab-content mt-3" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab" tabindex="0">
-              <div class="mb-3 row">
-                <label for="lemail" class="col-md-4 col-form-label text-md-end">Email</label>
-                <div class="col-md-6">
-                  <input id="lemail" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+              <form id="login">
+                <div class="mb-3 row">
+                  <label for="lemail" class="col-md-4 col-form-label text-md-end">Email</label>
+                  <div class="col-md-6">
+                    <input id="lemail" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+                  </div>
                 </div>
-              </div>
 
-              <div class="mb-3 row">
-                <label for="lpassword" class="col-md-4 col-form-label text-md-end">Password</label>
-                <div class="col-md-6">
-                  <input id="lpassword" type="password" class="form-control" name="password" autocomplete="password" autofocus>
+                <div class="mb-3 row">
+                  <label for="lpassword" class="col-md-4 col-form-label text-md-end">Password</label>
+                  <div class="col-md-6">
+                    <input id="lpassword" type="password" class="form-control" name="password" autocomplete="password" autofocus>
+                  </div>
                 </div>
-              </div>
 
-              <div class="mb-3 row">
-                <div class="col-md-6 offset-md-4">
-                  <button id="login" class="btn btn-primary">Login</button>
+                <div class="mb-3 row">
+                  <div class="col-md-6 offset-md-4">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
             <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab" tabindex="0">
-              <div class="mb-3 row">
-                <label for="rname" class="col-md-4 col-form-label text-md-end">Name</label>
-                <div class="col-md-6">
-                  <input id="rname" type="text" class="form-control" name="name" autocomplete="name" autofocus>
+              <form id="register">
+                <div class="mb-3 row">
+                  <label for="rname" class="col-md-4 col-form-label text-md-end">Name</label>
+                  <div class="col-md-6">
+                    <input id="rname" type="text" class="form-control" name="name" autocomplete="name" autofocus>
+                  </div>
                 </div>
-              </div>
 
-              <div class="mb-3 row">
-                <label for="remail" class="col-md-4 col-form-label text-md-end">Email</label>
-                <div class="col-md-6">
-                  <input id="remail" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+                <div class="mb-3 row">
+                  <label for="remail" class="col-md-4 col-form-label text-md-end">Email</label>
+                  <div class="col-md-6">
+                    <input id="remail" type="email" class="form-control" name="email" autocomplete="email" autofocus>
+                  </div>
                 </div>
-              </div>
 
-              <div class="mb-3 row">
-                <label for="rpassword" class="col-md-4 col-form-label text-md-end">Password</label>
-                <div class="col-md-6">
-                  <input id="rpassword" type="password" class="form-control" name="password" autocomplete="password" autofocus>
+                <div class="mb-3 row">
+                  <label for="rpassword" class="col-md-4 col-form-label text-md-end">Password</label>
+                  <div class="col-md-6">
+                    <input id="rpassword" type="password" class="form-control" name="password" autocomplete="password" autofocus>
+                  </div>
                 </div>
-              </div>
 
-              <div class="mb-3 row">
-                <div class="col-md-6 offset-md-4">
-                  <button id="register" class="btn btn-primary">Register</button>
+                <div class="mb-3 row">
+                  <div class="col-md-6 offset-md-4">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
