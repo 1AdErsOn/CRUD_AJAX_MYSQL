@@ -17,6 +17,7 @@
           <div class="tab-content mt-3" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab" tabindex="0">
               <form id="login">
+                <input type="hidden" name="login">
                 <div class="mb-3 row">
                   <label for="lemail" class="col-md-4 col-form-label text-md-end">Email</label>
                   <div class="col-md-6">
@@ -40,6 +41,7 @@
             </div>
             <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab" tabindex="0">
               <form id="register">
+                <input type="hidden" name="register">
                 <div class="mb-3 row">
                   <label for="rname" class="col-md-4 col-form-label text-md-end">Name</label>
                   <div class="col-md-6">

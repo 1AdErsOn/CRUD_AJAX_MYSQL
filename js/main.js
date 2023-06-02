@@ -27,59 +27,36 @@ class Model {
         this.view = null;
         this.method = 'POST';
         this.urlAdmin = './userLogin.php';
-        this.urlUser = './userAction.php';
+        //this.urlUser = './userAction.php';
         //instance
+        this.alert = new Alert('index');
     }
     setView(view){
         this.view = view;
     }
     createAdmin(camps) {
-        const data = {
-            name: camps.get('name'),
-            email: camps.get('email'),
-            password: camps.get('password'),
-            register:''
-        };
-        console.log(data);
-        //const adminData = 'register=&name='+name+'&email='+email+'&password='+password;
-        /* $.ajax({
-            type: this.method,
-            url: this.urlAdmin,
-            dataType: 'JSON',
-            data: adminData,
-            beforeSend: function(){
-                //frmElement.find('form').css("opacity", "0.5");
-            },
-            success:function(resp){
-                //frmElement.find('.statusMsg').html(resp.msg);
-                const alert = new Alert('index');
-                const status = resp.status;
-                //console.log(resp);
-                if(status){
-                    alert.setAlertType('alert-success');
-                    alert.show(resp.msg);
-                }else{
-                    alert.setAlertType('alert-danger');
-                    alert.show(resp.msg);
-                }
-                setTimeout(() => { 
-                    alert.hide(); 
-                    if (status){
-                        window.location.replace('./home.php');
-                    } 
-                }, 3000);
-            }
-        }); */
         fetch(this.urlAdmin, {
             method: this.method,
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
+            body: camps
+        }).then(response => response.json())
+        .catch(error => console.error('Error: ',error))
+        .then((response) => {
+            const status = response.status;
+            //console.log(resp);
+            if(status){
+                this.alert.setAlertType('alert-success');
+                this.alert.show(response.msg);
+            }else{
+                this.alert.setAlertType('alert-danger');
+                this.alert.show(response.msg);
             }
-        }).then(data => {
-            console.log(data);
-        })
-        //console.log(responce.json());
+            setTimeout(() => { 
+                this.alert.hide(); 
+                if (status){
+                    window.location.replace('./home.php');
+                } 
+            }, 3000);
+        });
         /* // Opciones por defecto estan marcadas con un *
         const response = await fetch(url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -96,36 +73,28 @@ class Model {
         });
         return response.json(); // parses JSON response into native JavaScript objects */
     }
-    LoginAdmin (email, password) {
-        const adminData = 'login=&email='+email+'&password='+password;
-        //const serve = null;
-        $.ajax({
-            type: this.method,
-            url: this.urlAdmin,
-            dataType: 'JSON',
-            data: adminData,
-            beforeSend: function(){
-                //frmElement.find('form').css("opacity", "0.5");
-            },
-            success:function(resp){
-                //frmElement.find('.statusMsg').html(resp.msg);
-                const alert = new Alert('index');
-                const status = resp.status;
-                //console.log(resp);
-                if(status){
-                    alert.setAlertType('alert-success');
-                    alert.show(resp.msg);
-                }else{
-                    alert.setAlertType('alert-danger');
-                    alert.show(resp.msg);
-                }
-                setTimeout(() => { 
-                    alert.hide(); 
-                    if (status){
-                        window.location.replace('./home.php');
-                    } 
-                }, 3000);
+    LoginAdmin (camps) {
+        fetch(this.urlAdmin, {
+            method: this.method,
+            body: camps
+        }).then(response => response.json())
+        .catch(error => console.error('Error: ',error))
+        .then((response) => {
+            const status = response.status;
+            //console.log(resp);
+            if(status){
+                this.alert.setAlertType('alert-success');
+                this.alert.show(response.msg);
+            }else{
+                this.alert.setAlertType('alert-danger');
+                this.alert.show(response.msg);
             }
+            setTimeout(() => { 
+                this.alert.hide(); 
+                if (status){
+                    window.location.replace('./home.php');
+                } 
+            }, 3000);
         });
     }
 }
@@ -155,7 +124,7 @@ class Admin {
                     this.alert.hide(); 
                 }, 3000);
             } else {
-                callback(email, password);
+                callback(camps);
             }
         });
     }
@@ -179,6 +148,9 @@ class Admin {
             }
         });
     }
+    adLogout (callback) {
+        
+    }
 }
 
 //import View from './view.js';
@@ -189,27 +161,16 @@ class View{
         this.admin = new Admin();
         
         //callbacks
-        this.admin.adLogin((email, password) => this.login(email, password));
+        this.admin.adLogin((camps) => this.login(camps));
         this.admin.adRegister((camps) => this.register(camps));
     }
     //set model
     setModel(model){
         this.model = model;
     }
-    // Update the users data list
-    getUsers(){
-        $.ajax({
-            type: 'POST',
-            url: 'userAction.php',
-            data: 'action_type=view',
-            success:function(html){
-                $('#userData').html(html);
-            }
-        });
-    }
-    login(email, password){
+    login(camps){
         //console.log(email, password);
-        this.model.LoginAdmin(email, password);
+        this.model.LoginAdmin(camps);
     }
     register(camps){
         //console.log(name, email, password);
@@ -224,6 +185,18 @@ document.addEventListener('DOMContentLoaded', () =>{
     model.setView(view);
     view.setModel(model);
 });
+
+// Update the users data list
+function getUsers(){
+    $.ajax({
+        type: 'POST',
+        url: 'userAction.php',
+        data: 'action_type=view',
+        success:function(html){
+            $('#userData').html(html);
+        }
+    });
+}
 // Send CRUD requests to the server-side script
 function userAction(type, id){
     id = (typeof id == "undefined")?'':id;
