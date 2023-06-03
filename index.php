@@ -1,4 +1,12 @@
-<?php include("./include/header.php"); ?>
+<?php 
+  //session 
+  $isLoged = false;
+  session_start();
+  if (isset($_SESSION['user'])) {
+    header("Location: ./home.php");
+  }
+
+  include("./include/header.php"); ?>
 
 <div class="container pt-5">
   <div class="row justify-content-center">

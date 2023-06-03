@@ -1,4 +1,12 @@
 <?php
+//session 
+$isLoged = true;
+session_start();
+if (!isset($_SESSION['user'])) {
+  header("Location: ./index.php");
+  $isLoged = false;
+}
+
 // Include and initialize DB class
 require_once 'DB.class.php';
 $db = new dataBase("users");
@@ -17,7 +25,9 @@ include("./include/header.php");
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@new_user">New User</button>
             </div>
         </div>
-        <div class="statusMsg"></div>
+        <div class="alert d-none" role="alert" id="index">
+          A simple danger alert—check it out!
+        </div>
         <!-- List the users -->
         <table class="table table-success table-striped-columns">
             <thead class="thead-dark">

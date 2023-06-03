@@ -12,8 +12,8 @@ if (isset($_POST["login"])){
         $message = "Password can not be less to 8 characters.";
     } else {
         //get values
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $email = trim($_POST["email"]);
+        $password = trim($_POST["password"]);
         //conect to database
         $DB = new dataBase("admins");
         $exits = $DB->verify($email);
@@ -54,9 +54,9 @@ if (isset($_POST["login"])){
         $message = "Password can not be less to 8 characters.";
     } else {
         //get values
-        $name = $_POST["name"];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $name = trim($_POST["name"]);
+        $email = trim($_POST["email"]);
+        $password = trim($_POST["password"]);
         //encript password
         $hasPassword = password_hash($password, PASSWORD_BCRYPT);
         //conect to database
@@ -87,4 +87,19 @@ if (isset($_POST["login"])){
     );
     echo json_encode($response);
     return;
+} else if (isset($_GET['logout'])){
+    session_start();
+    $redirectURL = "./index.php";
+
+    // Remove session data 
+    unset($_SESSION['user']); 
+    session_destroy(); 
+     
+    // Store logout status into the SESSION 
+    /* $sessData['status']['type'] = 'success'; 
+    $sessData['status']['msg'] = 'You have logout successfully!'; 
+    $_SESSION['sessData'] = $sessData;  */
+     
+    // Redirect to the home page 
+    header("Location: $redirectURL"); 
 }
