@@ -107,7 +107,7 @@ class Admin {
         //register
         this.registerForm = document.getElementById('register');
         //logout
-        this.logoutBtn = document.getElementById('logout');
+        //this.logoutBtn = document.getElementById('logout');
         //instance
         this.alert = new Alert('index');
     }
@@ -150,9 +150,9 @@ class Admin {
             }
         });
     }
-    adLogout (callback) {
+    /* adLogout (callback) {
         this.logoutBtn.onclick = ((id) => callback(id));
-    }
+    } */
 }
 
 //import View from './view.js';
